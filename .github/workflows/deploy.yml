@@ -1,0 +1,55 @@
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx ng test --watch=false
+
+      # O site fica em https://<usuario>.github.io/<repositorio>/, então o base href é o nome do repositório.
+      - name: Build de produção
+        run: npx ng build --base-href "/${{ github.event.repository.name }}/"
+
+      # 404.html = cópia do index.html, para que recarregar /historico ou /painel não dê erro 404.
+      # .nojekyll impede o GitHub de ignorar arquivos que começam com "_".
+      - name: Preparar para o Pages
+        run: |
+          cp dist/registro-de-sintomas/browser/index.html dist/registro-de-sintomas/browser/404.html
+          touch dist/registro-de-sintomas/browser/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/registro-de-sintomas/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
