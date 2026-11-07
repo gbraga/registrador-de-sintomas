@@ -1,0 +1,25 @@
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<div class="shell">
+  <nav class="nav" aria-label="Seções">
+    <p class="brand">Diário de sintomas</p>
+    <ul>
+      @for (item of nav; track item.path) {
+        <li>
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path [attr.d]="item.icon" /></svg>
+            <span>{{ item.label }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+  <main id="conteudo" class="main">
+    <router-outlet />
+  </main>
+</div>
+<app-toast-outlet />

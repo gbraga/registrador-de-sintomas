@@ -1,0 +1,178 @@
+:host {
+  display: block;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: calc(100dvh - var(--nav-height) - env(safe-area-inset-bottom) - 72px);
+  min-height: 460px;
+  background: radial-gradient(60% 50% at 50% 55%, #2e2647 0%, transparent 100%);
+}
+
+.intro {
+  padding: 20px 20px 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.date {
+  color: var(--lavender);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: var(--step-3);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.body {
+  min-height: 0;
+  margin-top: -36px;
+}
+
+.regions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.regions button {
+  flex: none;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--dusk-raised);
+  color: var(--mist);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1.5px var(--dusk-line);
+}
+
+.regions button.warm {
+  box-shadow: inset 0 0 0 2px var(--level-color);
+}
+
+.regions button[aria-pressed='true'] {
+  background: var(--action);
+  color: var(--action-ink);
+  box-shadow: none;
+}
+
+.today {
+  padding: 20px 20px 32px;
+}
+
+.today h2 {
+  font-size: var(--step-1);
+  margin-bottom: 8px;
+}
+
+.today ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.today li + li {
+  border-top: 1px solid var(--dusk-line);
+}
+
+.empty {
+  max-width: 44ch;
+  color: var(--lavender);
+}
+
+.more {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 0;
+  color: var(--heat-5);
+  font-weight: 700;
+}
+
+/* Folha de sintomas: sobe por cima do corpo no celular */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 44;
+  border: 0;
+  background: rgb(15 11 26 / 0.55);
+  cursor: default;
+}
+
+.sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 45;
+  height: min(88dvh, 820px);
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+  overflow: hidden;
+  box-shadow: 0 -12px 40px rgb(10 6 20 / 0.5);
+  animation: slide-up 260ms var(--ease-out);
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
+    height: 100dvh;
+  }
+
+  .stage {
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  .intro {
+    padding: 32px 40px 0;
+  }
+
+  .regions {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px 32px 28px;
+  }
+
+  .side {
+    position: relative;
+    border-left: 1px solid var(--dusk-line);
+    background: var(--dusk-deep);
+    overflow-y: auto;
+  }
+
+  .today {
+    padding: 36px 28px;
+  }
+
+  .backdrop {
+    display: none;
+  }
+
+  .sheet {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    border-radius: 0;
+    box-shadow: none;
+    animation: fade 200ms var(--ease-out);
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+  }
+}

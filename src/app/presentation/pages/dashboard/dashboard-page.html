@@ -1,0 +1,206 @@
+<div class="page">
+  <header class="top">
+    <h1>Painel</h1>
+    <div class="segmented" role="group" aria-label="Período analisado">
+      @for (days of ranges; track days) {
+        <button
+          type="button"
+          [attr.aria-pressed]="rangeDays() === days"
+          (click)="rangeDays.set(days)"
+        >
+          {{ rangeLabel(days) }}
+        </button>
+      }
+    </div>
+  </header>
+
+  @if (!entries().length) {
+    <div class="empty">
+      <p class="answer">Nenhum registro nos últimos {{ rangeLabel(rangeDays()) }}.</p>
+      <p>
+        Registre o que sente durante alguns dias e o painel mostra quando, onde e com que força os
+        sintomas aparecem.
+      </p>
+      <a routerLink="/" class="btn btn-primary">Registrar um sintoma</a>
+    </div>
+  } @else {
+    <section class="block calendar-block" aria-labelledby="q-days">
+      <div class="calendar-text">
+        <h2 id="q-days">Em quais dias?</h2>
+        <p class="answer" aria-live="polite">{{ daysSentence() }}</p>
+
+        <div class="filters" role="group" aria-label="Filtrar por sintoma">
+          <button
+            type="button"
+            class="chip"
+            [attr.aria-pressed]="!selectedSymptoms().length"
+            (click)="clearSymptoms()"
+          >
+            Qualquer sintoma
+          </button>
+          @for (option of visibleOptions(); track option.id) {
+            <button
+              type="button"
+              class="chip"
+              [attr.aria-pressed]="isSelected(option.id)"
+              (click)="toggleSymptom(option.id)"
+            >
+              {{ option.name }}
+            </button>
+          }
+          @if (hiddenOptionCount() > 0) {
+            <button type="button" class="chip more" (click)="showAllFilters.set(true)">
+              Mais {{ hiddenOptionCount() }}
+            </button>
+          }
+        </div>
+
+        @if (selectedSymptoms().length > 1) {
+          <div class="segmented small" role="group" aria-label="Como combinar os sintomas">
+            <button
+              type="button"
+              [attr.aria-pressed]="matchMode() === 'any'"
+              (click)="matchMode.set('any')"
+            >
+              Qualquer um deles
+            </button>
+            <button
+              type="button"
+              [attr.aria-pressed]="matchMode() === 'all'"
+              (click)="matchMode.set('all')"
+            >
+              Todos no mesmo dia
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="calendar-figure">
+        <div class="calendar" [class.wide]="rangeDays() > 7">
+          <div class="weekdays" aria-hidden="true">
+            @for (d of weekdays; track $index) {
+              <span>{{ d }}</span>
+            }
+          </div>
+          <ul
+            class="cells"
+            [attr.aria-label]="'Calendário de ' + calendarStart() + ' a ' + calendarEnd"
+          >
+            @for (cell of calendar(); track cell.key) {
+              @if (cell.inRange) {
+                <li
+                  class="cell"
+                  [class.on]="cell.level"
+                  [style.--level-color]="cell.level ? 'var(--heat-' + cell.level + ')' : null"
+                  [title]="cell.label"
+                >
+                  <span class="visually-hidden">{{ cell.label }}</span>
+                </li>
+              } @else {
+                <li class="cell pad" aria-hidden="true"></li>
+              }
+            }
+          </ul>
+          <div class="range-ends" aria-hidden="true">
+            <span>{{ calendarStart() }}</span>
+            <span>{{ calendarEnd }}</span>
+          </div>
+        </div>
+
+        <div class="legend" aria-label="Legenda: cor indica a intensidade máxima do dia">
+          <span class="legend-title">Intensidade máxima do dia</span>
+          <ul>
+            <li><span class="swatch empty-swatch"></span>Sem registro</li>
+            @for (level of levels; track level) {
+              <li>
+                <span class="swatch" [style.background]="'var(--heat-' + level + ')'"></span
+                >{{ level }}
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="pair">
+      <section class="block" aria-labelledby="q-time">
+        <h2 id="q-time">Em que momento do dia?</h2>
+        <p class="answer">{{ periodSentence() }}</p>
+
+        <ul class="bars">
+          @for (p of periods(); track p.periodId) {
+            <li [title]="p.name + ': ' + p.count + ' registros'">
+              <span class="bar-label">{{ p.name }}</span>
+              <span class="track"><span class="bar" [style.width.%]="p.share * 100"></span></span>
+              <span class="bar-value">{{ p.count }}</span>
+            </li>
+          }
+        </ul>
+
+        <figure class="hours">
+          <div class="hour-cols" aria-hidden="true">
+            @for (h of hours(); track h.hour) {
+              <span class="col" [title]="h.hour + 'h: ' + h.count + ' registros'">
+                <span class="col-fill" [style.height.%]="h.share * 100"></span>
+              </span>
+            }
+          </div>
+          <div class="hour-axis" aria-hidden="true">
+            <span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>23h</span>
+          </div>
+          <figcaption>Registros por hora</figcaption>
+        </figure>
+      </section>
+
+      <section class="block" aria-labelledby="q-region">
+        <h2 id="q-region">Que região é mais afetada?</h2>
+        <p class="answer">{{ regionSentence() }}</p>
+        <ul class="bars">
+          @for (r of regions(); track r.regionId) {
+            <li
+              [title]="
+                r.name +
+                ': ' +
+                r.count +
+                ' registros, intensidade média ' +
+                decimal(r.averageIntensity)
+              "
+            >
+              <span class="bar-label">{{ r.name }}</span>
+              <span class="track"><span class="bar" [style.width.%]="r.share * 100"></span></span>
+              <span class="bar-value">{{ r.count }}</span>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+
+    <section class="block" aria-labelledby="q-symptoms">
+      <h2 id="q-symptoms">Quais sintomas aparecem mais?</h2>
+      <table class="symptoms">
+        <caption class="visually-hidden">
+          Sintomas mais frequentes no período
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Sintoma</th>
+            <th scope="col">Dias</th>
+            <th scope="col"><abbr title="Intensidade média">Média</abbr></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (s of topSymptoms(); track s.symptomId) {
+            <tr>
+              <th scope="row">
+                {{ s.name }}
+                <span class="track"><span class="bar" [style.width.%]="s.share * 100"></span></span>
+              </th>
+              <td>{{ s.days }}</td>
+              <td>{{ decimal(s.averageIntensity) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  }
+</div>

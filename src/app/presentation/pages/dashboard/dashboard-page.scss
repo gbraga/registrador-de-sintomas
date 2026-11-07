@@ -1,0 +1,351 @@
+:host {
+  display: block;
+}
+
+.page {
+  max-width: 68rem;
+  padding: 28px 20px 48px;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+h1 {
+  font-size: var(--step-3);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--dusk-raised);
+}
+
+.segmented button {
+  min-height: 42px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--lavender);
+  font-weight: 700;
+}
+
+.segmented button[aria-pressed='true'] {
+  background: var(--mist);
+  color: var(--dusk);
+}
+
+.segmented.small {
+  margin-top: 12px;
+}
+
+.block {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--dusk-line);
+}
+
+h2 {
+  font-size: var(--step-0);
+  font-weight: 700;
+  color: var(--lavender);
+}
+
+.answer {
+  margin-top: 6px;
+  max-width: 34ch;
+  font-size: var(--step-2);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  margin-top: 40px;
+  color: var(--lavender);
+}
+
+.empty .answer {
+  color: var(--mist);
+}
+
+/* Filtros por sintoma */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mist);
+  font-size: var(--step--1);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1.5px var(--dusk-line);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--mist);
+  color: var(--dusk);
+  box-shadow: none;
+}
+
+.chip.more {
+  color: var(--heat-5);
+  box-shadow: none;
+}
+
+/* Calendário */
+.calendar {
+  margin-top: 24px;
+  max-width: 26rem;
+}
+
+.weekdays,
+.cells {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.weekdays span {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--lavender-dim);
+}
+
+.cells {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: var(--dusk-raised);
+}
+
+.cell.on {
+  background: var(--level-color);
+}
+
+.cell.pad {
+  background: transparent;
+}
+
+.range-ends {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: var(--lavender);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 16px;
+  font-size: var(--step--1);
+  color: var(--lavender);
+}
+
+.legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.empty-swatch {
+  background: var(--dusk-raised);
+  box-shadow: inset 0 0 0 1px var(--dusk-line);
+}
+
+/* Barras horizontais */
+.bars {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bars li {
+  display: grid;
+  grid-template-columns: 9rem 1fr 2.5rem;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-label {
+  font-weight: 600;
+}
+
+.bar-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--lavender);
+}
+
+.track {
+  display: block;
+  height: 14px;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  min-width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--heat-4);
+}
+
+/* Registros por hora */
+.hours {
+  margin: 28px 0 0;
+}
+
+.hour-cols {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: end;
+  gap: 2px;
+  height: 72px;
+  border-bottom: 1px solid var(--dusk-line);
+}
+
+.col {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.col-fill {
+  display: block;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--heat-3);
+}
+
+.hour-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--lavender);
+}
+
+figcaption {
+  margin-top: 4px;
+  font-size: var(--step--1);
+  color: var(--lavender);
+}
+
+/* Tabela de sintomas */
+.symptoms {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.symptoms thead th {
+  padding: 0 0 8px;
+  text-align: left;
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--lavender);
+}
+
+.symptoms thead th:not(:first-child),
+.symptoms td {
+  text-align: right;
+  width: 3.5rem;
+}
+
+@media (min-width: 600px) {
+  .symptoms thead th:not(:first-child),
+  .symptoms td {
+    width: 7rem;
+  }
+}
+
+.symptoms tbody th {
+  padding: 10px 16px 10px 0;
+  text-align: left;
+  font-weight: 600;
+}
+
+.symptoms tbody th .track {
+  height: 8px;
+  margin-top: 6px;
+}
+
+.symptoms td {
+  font-variant-numeric: tabular-nums;
+  color: var(--lavender);
+}
+
+.symptoms tbody tr + tr {
+  border-top: 1px solid var(--dusk-line);
+}
+
+@media (min-width: 900px) {
+  .page {
+    padding: 48px 56px 64px;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+
+  .calendar-block {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
+    gap: 56px;
+    align-items: start;
+  }
+
+  .calendar-figure .calendar {
+    margin-top: 0;
+  }
+}
+
+abbr {
+  text-decoration: none;
+}

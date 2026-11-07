@@ -1,0 +1,121 @@
+<section class="sheet" aria-labelledby="sheet-title">
+  <header class="head">
+    <div>
+      <h2 id="sheet-title" #heading tabindex="-1">{{ region().name }}</h2>
+      <p class="hint">Marque o que você sente e diga o quanto incomoda.</p>
+    </div>
+    <button
+      type="button"
+      class="close"
+      (click)="closed.emit()"
+      aria-label="Fechar lista de sintomas"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+  </header>
+
+  <div class="when" role="group" aria-label="Quando você sentiu">
+    <div class="segmented">
+      <button type="button" [attr.aria-pressed]="timing() === 'now'" (click)="timing.set('now')">
+        Agora
+      </button>
+      <button type="button" [attr.aria-pressed]="timing() === 'earlier'" (click)="chooseEarlier()">
+        Mais cedo
+      </button>
+    </div>
+    @if (timing() === 'earlier') {
+      <div class="earlier">
+        <div class="segmented small">
+          <button type="button" [attr.aria-pressed]="dayOffset() === 0" (click)="dayOffset.set(0)">
+            Hoje
+          </button>
+          <button type="button" [attr.aria-pressed]="dayOffset() === 1" (click)="dayOffset.set(1)">
+            Ontem
+          </button>
+        </div>
+        <label class="time">
+          <span class="visually-hidden">Horário</span>
+          <input type="time" [value]="time()" (input)="time.set($any($event.target).value)" />
+        </label>
+      </div>
+    }
+  </div>
+
+  <div class="list">
+    @for (group of groups(); track group.category.id) {
+      <h3>{{ group.category.name }}</h3>
+      <ul>
+        @for (symptom of group.symptoms; track symptom.id) {
+          <li [class.checked]="isChecked(symptom.id)">
+            <button
+              type="button"
+              class="toggle"
+              role="checkbox"
+              [attr.aria-checked]="isChecked(symptom.id)"
+              (click)="toggle(symptom.id)"
+            >
+              <span class="box" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+              </span>
+              <span class="name">{{ symptom.name }}</span>
+            </button>
+            @if (isChecked(symptom.id)) {
+              <div class="detail">
+                @if (symptom.description) {
+                  <p class="description">{{ symptom.description }}</p>
+                }
+                <app-intensity-picker
+                  [subject]="symptom.name"
+                  [value]="intensityOf(symptom.id)"
+                  (valueChange)="setIntensity(symptom.id, $event)"
+                />
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    <div class="custom">
+      @if (addingCustom()) {
+        <form (submit)="$event.preventDefault(); addCustom()">
+          <label for="custom-name">Nome do sintoma</label>
+          <div class="custom-row">
+            <input
+              id="custom-name"
+              type="text"
+              autocomplete="off"
+              maxlength="80"
+              [value]="customName()"
+              (input)="customName.set($any($event.target).value)"
+            />
+            <button type="submit" class="btn btn-quiet" [disabled]="!customName().trim()">
+              Adicionar
+            </button>
+          </div>
+        </form>
+      } @else {
+        <button type="button" class="add" (click)="addingCustom.set(true)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+          Adicionar outro sintoma
+        </button>
+      }
+    </div>
+  </div>
+
+  <footer class="foot">
+    @if (error()) {
+      <p class="error" role="alert">{{ error() }}</p>
+    } @else if (missingIntensity() > 0) {
+      <p class="status">Escolha a intensidade de cada sintoma marcado.</p>
+    }
+    <button
+      type="button"
+      class="btn btn-primary submit"
+      [disabled]="!canSubmit()"
+      (click)="submit()"
+    >
+      {{ submitLabel() }}
+    </button>
+  </footer>
+</section>

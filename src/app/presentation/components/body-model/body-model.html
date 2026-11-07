@@ -1,0 +1,20 @@
+<canvas
+  #canvas
+  role="img"
+  aria-label="Corpo humano em 3D. Toque numa parte do corpo ou use os botões de região abaixo."
+></canvas>
+
+@if (unsupported()) {
+  <p class="fallback">
+    Este aparelho não exibe o corpo em 3D. Escolha a região pelos botões abaixo.
+  </p>
+}
+
+<div class="turn" role="group" aria-label="Lado do corpo">
+  <button type="button" [attr.aria-pressed]="side() === 'front'" (click)="turn('front')">
+    Frente
+  </button>
+  <button type="button" [attr.aria-pressed]="side() === 'back'" (click)="turn('back')">
+    Costas
+  </button>
+</div>

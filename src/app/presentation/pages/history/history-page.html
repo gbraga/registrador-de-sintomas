@@ -1,0 +1,54 @@
+<div class="page">
+  <header>
+    <h1>Histórico</h1>
+    <p class="lead">{{ count(total()) }} guardados neste aparelho.</p>
+  </header>
+
+  @if (days().length) {
+    @for (day of days(); track day.key) {
+      <section class="day" [attr.aria-labelledby]="'day-' + day.key">
+        <h2 [id]="'day-' + day.key">
+          {{ day.title }} <span class="count">{{ count(day.entries.length) }}</span>
+        </h2>
+        <ul>
+          @for (entry of day.entries; track entry.id) {
+            <li><app-entry-row [entry]="entry" [removable]="true" (removed)="remove($event)" /></li>
+          }
+        </ul>
+      </section>
+    }
+    @if (hasMore()) {
+      <button type="button" class="btn btn-quiet more" (click)="showMore()">
+        Mostrar dias anteriores
+      </button>
+    }
+  } @else {
+    <div class="empty">
+      <p>Seus registros aparecem aqui, agrupados por dia.</p>
+      <a routerLink="/" class="btn btn-primary">Registrar um sintoma</a>
+    </div>
+  }
+
+  <section class="backup" aria-labelledby="backup-title">
+    <h2 id="backup-title">Cópia de segurança</h2>
+    <p>
+      Os registros ficam só neste aparelho. Baixe um arquivo para guardar, levar à consulta ou
+      passar para outro celular. Ao importar, os registros do arquivo se juntam aos que já estão
+      aqui.
+    </p>
+    <div class="actions">
+      <button type="button" class="btn btn-primary" (click)="exportFile()" [disabled]="!total()">
+        Baixar arquivo
+      </button>
+      <label class="btn btn-quiet">
+        Importar arquivo
+        <input
+          type="file"
+          accept="application/json,.json"
+          class="visually-hidden"
+          (change)="importFile($event)"
+        />
+      </label>
+    </div>
+  </section>
+</div>

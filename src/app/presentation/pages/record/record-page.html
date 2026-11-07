@@ -1,0 +1,65 @@
+<div class="page" [class.open]="selectedRegion()">
+  <div class="stage">
+    <header class="intro">
+      <p class="date">{{ today }}</p>
+      <h1>Onde você sente?</h1>
+    </header>
+
+    <app-body-model
+      class="body"
+      [selected]="selectedId()"
+      [heat]="heat()"
+      (picked)="select($event)"
+    />
+
+    <div class="regions" role="group" aria-label="Regiões do corpo">
+      @for (region of regions; track region.id) {
+        <button
+          type="button"
+          [id]="'region-' + region.id"
+          [attr.aria-pressed]="selectedId() === region.id"
+          [style.--level-color]="heat()[region.id] ? 'var(--heat-' + heat()[region.id] + ')' : null"
+          [class.warm]="heat()[region.id]"
+          (click)="select(region.id)"
+        >
+          {{ region.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <aside class="side">
+    @if (selectedRegion(); as region) {
+      <button
+        type="button"
+        class="backdrop"
+        tabindex="-1"
+        aria-hidden="true"
+        (click)="close()"
+      ></button>
+      <app-symptom-sheet
+        class="sheet"
+        [region]="region"
+        (recorded)="onRecorded($event)"
+        (closed)="close()"
+      />
+    }
+
+    <section class="today" aria-labelledby="today-title">
+      <h2 id="today-title">{{ todaySummary() }}</h2>
+      @if (todayEntries().length) {
+        <ul>
+          @for (entry of todayEntries(); track entry.id) {
+            <li><app-entry-row [entry]="entry" [removable]="true" (removed)="remove($event)" /></li>
+          }
+        </ul>
+        <a routerLink="/painel" class="more">Ver como os sintomas mudam no painel</a>
+      } @else {
+        <p class="empty">
+          Toque na parte do corpo onde sente algo. As regiões ganham cor conforme a intensidade do
+          que você registrar hoje.
+        </p>
+      }
+    </section>
+  </aside>
+</div>
