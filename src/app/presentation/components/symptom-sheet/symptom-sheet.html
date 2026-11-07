@@ -47,23 +47,48 @@
       <ul>
         @for (symptom of group.symptoms; track symptom.id) {
           <li [class.checked]="isChecked(symptom.id)">
-            <button
-              type="button"
-              class="toggle"
-              role="checkbox"
-              [attr.aria-checked]="isChecked(symptom.id)"
-              (click)="toggle(symptom.id)"
-            >
-              <span class="box" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-              </span>
-              <span class="name">{{ symptom.name }}</span>
-            </button>
+            <div class="row">
+              <button
+                type="button"
+                class="toggle"
+                role="checkbox"
+                [attr.aria-checked]="isChecked(symptom.id)"
+                (click)="toggle(symptom.id)"
+              >
+                <span class="box" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+                </span>
+                <span class="name">{{ symptom.name }}</span>
+              </button>
+              @if (symptom.description) {
+                <div
+                  class="info"
+                  (pointerenter)="hoverTip(symptom.id, $event)"
+                  (pointerleave)="unhoverTip(symptom.id, $event)"
+                >
+                  <button
+                    type="button"
+                    class="info-button"
+                    [attr.aria-label]="'O que é: ' + symptom.name"
+                    [attr.aria-expanded]="openTip() === symptom.id"
+                    [attr.aria-describedby]="'tip-' + symptom.id"
+                    (click)="toggleTip(symptom.id)"
+                  >
+                    <span aria-hidden="true">?</span>
+                  </button>
+                  <p
+                    class="tip"
+                    role="tooltip"
+                    [id]="'tip-' + symptom.id"
+                    [class.open]="openTip() === symptom.id"
+                  >
+                    {{ symptom.description }}
+                  </p>
+                </div>
+              }
+            </div>
             @if (isChecked(symptom.id)) {
               <div class="detail">
-                @if (symptom.description) {
-                  <p class="description">{{ symptom.description }}</p>
-                }
                 <app-intensity-picker
                   [subject]="symptom.name"
                   [value]="intensityOf(symptom.id)"

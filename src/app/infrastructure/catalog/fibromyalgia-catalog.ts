@@ -78,7 +78,7 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'fragmented-sleep',
         'Sono fragmentado',
-        'Despertares repetidos durante a noite e dificuldade de alcançar um descanso reparador.',
+        'Despertares repetidos durante a noite, interrupções frequentes do sono e dificuldade de alcançar um descanso verdadeiramente reparador.',
         ['head', 'whole-body'],
       ],
       [
@@ -96,7 +96,7 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'sensory-hypersensitivity',
         'Hipersensibilidade sensorial',
-        'Intolerância a estímulos táteis, sonoros, luminosos e olfativos, como ruídos, luzes intensas, perfumes e certos toques.',
+        'Maior desconforto ou intolerância diante de estímulos táteis, sonoros, luminosos e olfativos, incluindo ruídos cotidianos, luzes intensas, perfumes e determinados tipos de toque.',
         ['head', 'whole-body'],
       ],
     ],
@@ -107,7 +107,7 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'tender-points',
         'Pontos de sensibilidade (tender points)',
-        'Dor à palpação na base do crânio, pescoço, ombros, caixa torácica, lombar e quadris.',
+        'Dor à palpação em regiões como base do crânio, pescoço, ombros, caixa torácica, região lombar e quadris.',
         ['torso', 'head', 'whole-body'],
       ],
       [
@@ -119,13 +119,13 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'muscle-stiffness',
         'Sensação de rigidez muscular',
-        'Dificuldade de movimentar regiões do corpo após repouso, com musculatura endurecida, contraída ou pesada.',
+        'Dificuldade de movimentar determinadas regiões do corpo após períodos de repouso, com sensação de musculatura endurecida, contraída ou pesada.',
         ['torso', 'arms', 'legs', 'whole-body'],
       ],
       [
         'pressure-sensitivity',
         'Sensibilidade à pressão',
-        'Dor exagerada ao ficar sentado, deitado ou apoiado, mesmo com pressão leve ou moderada.',
+        'Desconforto ou dor exagerada ao permanecer sentado, deitado ou apoiado sobre determinadas superfícies, mesmo quando a pressão aplicada é leve ou moderada.',
         ['torso', 'legs', 'whole-body'],
       ],
       [
@@ -142,19 +142,19 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'migrating-pain',
         'Dor difusa e móvel ("dor que anda")',
-        'Dor profunda, queimação ou pontadas que mudam constantemente de lugar pelo corpo.',
+        'Dor profunda, queimação ou pontadas persistentes que mudam constantemente de foco principal pelo corpo.',
         ['arms', 'legs', 'torso', 'whole-body'],
       ],
       [
         'paresthesia',
         'Parestesias e disestesias',
-        'Formigamento, dormência, choques ou fisgadas repentinas nas mãos e nos pés.',
+        'Formigamento, dormência, choques elétricos ou fisgadas repentinas nas mãos e nos pés.',
         ['arms', 'legs'],
       ],
       [
         'cramps',
         'Cãibras e espasmos',
-        'Contrações dolorosas espontâneas, tremores leves ou pequenos tiques musculares.',
+        'Contrações dolorosas espontâneas, tremores leves ou pequenos tiques musculares involuntários.',
         ['arms', 'legs'],
       ],
       [
@@ -172,7 +172,7 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'subjective-weakness',
         'Fraqueza subjetiva',
-        'Sensação de falta de força nos braços, pernas ou no corpo todo, sem perda muscular nos exames.',
+        'Sensação persistente de falta de força nos braços, pernas ou em todo o corpo, mesmo sem evidências de perda muscular ou redução objetiva da força durante exames físicos.',
         ['arms', 'legs', 'whole-body'],
       ],
     ],
@@ -183,19 +183,19 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'persistent-fatigue',
         'Fadiga persistente',
-        'Cansaço físico e mental intenso, desproporcional às atividades realizadas.',
+        'Cansaço físico e mental intenso, desproporcional às atividades realizadas, que pode comprometer significativamente a rotina.',
         ['whole-body'],
       ],
       [
         'effort-intolerance',
         'Intolerância ao esforço',
-        'Piora da dor, fadiga e exaustão após atividades físicas ou mentais, mesmo leves.',
+        'Piora da dor, fadiga e sensação de exaustão após atividades físicas ou mentais, inclusive quando são relativamente leves.',
         ['whole-body'],
       ],
       [
         'post-activity-pain',
         'Dor após atividades cotidianas',
-        'Dor desproporcional após tarefas simples: limpar a casa, caminhar, subir escadas, carregar objetos.',
+        'Dor muscular ou generalizada desproporcional após tarefas simples, como limpar a casa, caminhar, subir escadas, carregar objetos ou permanecer muito tempo em determinada posição.',
         ['whole-body', 'arms', 'legs'],
       ],
     ],
@@ -206,25 +206,25 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'orthostatic-hypotension',
         'Hipotensão ortostática',
-        'Tontura, cabeça leve ou escurecimento da visão ao se levantar rapidamente.',
+        'Tontura, sensação de cabeça leve ou escurecimento da visão ao se levantar rapidamente.',
         ['head', 'whole-body'],
       ],
       [
         'palpitations',
         'Palpitações cardíacas',
-        'Batimentos acelerados ou descompassados no peito, mesmo em repouso.',
+        'Sensação de batimentos acelerados ou descompassados no peito, mesmo em repouso.',
         ['torso'],
       ],
       [
         'abnormal-sweating',
         'Sudorese anormal',
-        'Crises de suor excessivo sem relação com calor ou esforço.',
+        'Crises de suor excessivo sem relação com o calor do ambiente ou esforço físico.',
         ['whole-body'],
       ],
       [
         'poor-coordination',
         'Falta de coordenação motora',
-        'Instabilidade ao andar, esbarrar em objetos ou deixar coisas caírem das mãos.',
+        'Instabilidade ao andar, tendência a esbarrar em objetos ou deixar coisas caírem das mãos.',
         ['whole-body', 'arms', 'legs'],
       ],
     ],
@@ -247,7 +247,7 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'interstitial-cystitis',
         'Cistite intersticial',
-        'Dor ou queimação na bexiga sem infecção urinária.',
+        'Dor ou queimação na bexiga sem a presença de infecção urinária.',
         ['abdomen'],
       ],
       [
@@ -270,31 +270,31 @@ const GROUPS: { category: SymptomCategory; rows: Row[] }[] = [
       [
         'allodynia',
         'Alodinia',
-        'Dor causada por estímulos leves, como o toque de uma roupa, um abraço ou uma superfície.',
+        'Dor desencadeada por estímulos leves, como o toque de uma roupa, um abraço ou contato com superfícies.',
         ['whole-body', 'arms', 'legs', 'torso'],
       ],
       [
         'formication',
         'Formicação',
-        'Sensação de insetos andando ou rastejando sobre a pele.',
+        'Sensação tátil alterada, como se houvesse insetos andando ou rastejando sobre a pele.',
         ['whole-body', 'arms', 'legs'],
       ],
       [
         'itching-dryness',
         'Prurido e secura',
-        'Coceira na pele sem lesões aparentes e ressecamento das mucosas.',
+        'Coceira na pele sem lesões aparentes e ressecamento geral das mucosas.',
         ['whole-body'],
       ],
       [
         'weather-sensitivity',
         'Intolerância a mudanças climáticas',
-        'Piora das dores com frentes frias, quedas de temperatura ou variação de pressão.',
+        'Piora das dores diante de frentes frias, quedas de temperatura ou variações de pressão atmosférica.',
         ['whole-body'],
       ],
       [
         'medication-sensitivity',
         'Sensibilidade a medicamentos',
-        'Reações colaterais ou dificuldade de tolerar medicamentos em doses habituais.',
+        'Reações colaterais ou dificuldade de tolerar determinados medicamentos em doses habituais.',
         ['whole-body'],
       ],
     ],

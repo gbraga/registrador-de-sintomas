@@ -35,7 +35,10 @@ type Selection = ReadonlyMap<string, Intensity | null>;
   imports: [IntensityPicker],
   templateUrl: './symptom-sheet.html',
   styleUrl: './symptom-sheet.scss',
-  host: { '(keydown.escape)': 'closed.emit()' },
+  host: {
+    '(keydown.escape)': 'onEscape()',
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class SymptomSheet {
   readonly region = input.required<BodyRegion>();
@@ -58,6 +61,9 @@ export class SymptomSheet {
   protected readonly addingCustom = signal(false);
   protected readonly customName = signal('');
   protected readonly error = signal('');
+  /** Tooltip de descrição aberto; `pinned` quando aberto por clique/toque (não fecha ao tirar o mouse). */
+  private readonly tip = signal<{ id: string; pinned: boolean } | null>(null);
+  protected readonly openTip = computed(() => this.tip()?.id ?? null);
 
   protected readonly groups = computed<SymptomGroup[]>(() => {
     const symptoms = this.store.symptomsIn(this.region().id);
@@ -88,7 +94,31 @@ export class SymptomSheet {
       this.region();
       this.error.set('');
       this.addingCustom.set(false);
+      this.tip.set(null);
     });
+  }
+
+  protected hoverTip(id: string, event: PointerEvent): void {
+    if (event.pointerType === 'mouse' && !this.tip()?.pinned) this.tip.set({ id, pinned: false });
+  }
+
+  protected unhoverTip(id: string, event: PointerEvent): void {
+    const tip = this.tip();
+    if (event.pointerType === 'mouse' && tip?.id === id && !tip.pinned) this.tip.set(null);
+  }
+
+  protected toggleTip(id: string): void {
+    const tip = this.tip();
+    this.tip.set(tip?.id === id && tip.pinned ? null : { id, pinned: true });
+  }
+
+  protected onDocumentClick(event: MouseEvent): void {
+    if (this.tip() && !(event.target as Element | null)?.closest?.('.info')) this.tip.set(null);
+  }
+
+  protected onEscape(): void {
+    if (this.tip()) this.tip.set(null);
+    else this.closed.emit();
   }
 
   protected isChecked(id: string): boolean {
